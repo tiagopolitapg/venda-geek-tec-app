@@ -41,8 +41,8 @@ const ProtectedRoute = ({ children }) => {
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, isAuthenticated, navigateToLogin } = useAuth();
 
-  // Show loading spinner while checking app public settings or auth
-  if (isLoadingPublicSettings || isLoadingAuth) {
+  // Show loading spinner while checking app public settings or auth (mas não para a página de login)
+  if ((isLoadingPublicSettings || isLoadingAuth) && window.location.pathname !== '/login') {
     return (
       <div className="fixed inset-0 flex items-center justify-center">
         <div className="w-8 h-8 border-4 border-slate-200 border-t-slate-800 rounded-full animate-spin"></div>
@@ -50,20 +50,10 @@ const AuthenticatedApp = () => {
     );
   }
 
-  // Handle authentication errors
-  if (authError) {
-    if (authError.type === 'user_not_registered') {
-      return <UserNotRegisteredError />;
-    } else if (authError.type === 'auth_required') {
-      // Redirecionamento agora é tratado pelo ProtectedRoute ou pelo AuthContext
-      return <Navigate to="/login" replace />;
-    }
-  }
-
   // Render the main app
   return (
     <Routes>
-      {/* Rota de Login */}
+      {/* Rota de Login - Acessível sem autenticação */}
       <Route path="/login" element={<LoginPage />} />
 
       {/* Rotas Protegidas */}
