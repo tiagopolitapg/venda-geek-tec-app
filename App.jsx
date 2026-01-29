@@ -53,7 +53,7 @@ const AuthenticatedApp = () => {
   // Render the main app
   return (
     <Routes>
-      {/* Rota de Login - Acessível sem autenticação */}
+      {/* Rota de Login - Acessível sem autenticação - DEVE VIR ANTES DAS ROTAS PROTEGIDAS */}
       <Route path="/login" element={<LoginPage />} />
 
       {/* Rotas Protegidas */}
@@ -77,6 +77,8 @@ const AuthenticatedApp = () => {
           }
         />
       ))}
+      
+      {/* Rota 404 - DEVE VIR POR ÚLTIMO */}
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
