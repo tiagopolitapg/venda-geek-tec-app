@@ -9,6 +9,9 @@ export default defineConfig({
     host: '0.0.0.0',
     cors: true
   },
+  preview: {
+    allowedHosts: ['all'],
+  },
   plugins: [
     base44({
       // Support for legacy code that imports the base44 SDK with @/integrations, @/entities, etc.
