@@ -3,6 +3,7 @@ import { base44 } from "@/api/base44Client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BarChart3, Calendar, Users, Package, TrendingUp } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/lib/AuthContext";
 import { createPageUrl } from "@/utils";
 import ReportSelector from "../components/reports/ReportSelector";
 
@@ -10,17 +11,17 @@ export default function ReportsPage() {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
+  const { user: authUser } = useAuth();
+
   useEffect(() => {
-    const loadUser = async () => {
-      try {
-        const currentUser = await base44.auth.me();
-        setUser(currentUser);
-      } catch (error) {
-        console.error("Erro ao carregar usuário:", error);
-      }
-    };
-    loadUser();
-  }, []);
+    if (authUser) {
+      setUser({
+        full_name: authUser.name,
+        email: authUser.email,
+        role: authUser.role
+      });
+    }
+  }, [authUser]);
 
   const urlParams = new URLSearchParams(window.location.search);
   const reportType = urlParams.get('type');

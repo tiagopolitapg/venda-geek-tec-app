@@ -31,6 +31,7 @@ import {
   AlertCircle
 } from "lucide-react";
 import { toast } from "sonner";
+import { useAuth } from "@/lib/AuthContext";
 
 export default function CashRegisterPage() {
   const [user, setUser] = useState(null);
@@ -42,17 +43,17 @@ export default function CashRegisterPage() {
 
   const queryClient = useQueryClient();
 
+  const { user: authUser } = useAuth();
+
   useEffect(() => {
-    const loadUser = async () => {
-      try {
-        const currentUser = await base44.auth.me();
-        setUser(currentUser);
-      } catch (error) {
-        console.error("Erro ao carregar usuário:", error);
-      }
-    };
-    loadUser();
-  }, []);
+    if (authUser) {
+      setUser({
+        full_name: authUser.name,
+        email: authUser.email,
+        role: authUser.role
+      });
+    }
+  }, [authUser]);
 
   const { data: cashRegisters, isLoading } = useQuery({
     queryKey: ['cashRegisters'],

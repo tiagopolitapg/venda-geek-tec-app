@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Package, Users, ShoppingCart, TrendingUp, DollarSign, BarChart3 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "@/lib/AuthContext";
 import { createPageUrl } from "@/utils";
 import { Button } from "@/components/ui/button";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
@@ -12,17 +13,17 @@ export default function Dashboard() {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
+  const { user: authUser } = useAuth();
+
   useEffect(() => {
-    const loadUser = async () => {
-      try {
-        const currentUser = await base44.auth.me();
-        setUser(currentUser);
-      } catch (error) {
-        console.error("Erro ao carregar usuário:", error);
-      }
-    };
-    loadUser();
-  }, []);
+    if (authUser) {
+      setUser({
+        full_name: authUser.name,
+        email: authUser.email,
+        role: authUser.role
+      });
+    }
+  }, [authUser]);
 
   const { data: products } = useQuery({
     queryKey: ['products'],

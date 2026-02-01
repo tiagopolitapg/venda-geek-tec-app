@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/dialog";
 import { Search, Plus, Pencil, Trash2, Users } from "lucide-react";
 import { toast } from "sonner";
+import { useAuth } from "@/lib/AuthContext";
 import { canCreate, canUpdate, canDelete } from "../components/utils/permissions";
 import { removeMask } from "../components/utils/cpfValidator";
 import ClientForm from "../components/clients/ClientForm";
@@ -35,17 +36,17 @@ export default function ClientsPage() {
 
   const queryClient = useQueryClient();
 
+  const { user: authUser } = useAuth();
+
   useEffect(() => {
-    const loadUser = async () => {
-      try {
-        const currentUser = await base44.auth.me();
-        setUser(currentUser);
-      } catch (error) {
-        console.error("Erro ao carregar usuário:", error);
-      }
-    };
-    loadUser();
-  }, []);
+    if (authUser) {
+      setUser({
+        full_name: authUser.name,
+        email: authUser.email,
+        role: authUser.role
+      });
+    }
+  }, [authUser]);
 
   const { data: clients, isLoading } = useQuery({
     queryKey: ['clients'],
