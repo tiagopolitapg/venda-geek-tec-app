@@ -7,6 +7,8 @@ export default defineConfig({
   server: {
     host: '0.0.0.0',
     port: 5173,
+    allowedHosts: ['5173-iaeb5kic01lw23fisbze4-453e8e83.us2.manus.computer', 'localhost', '127.0.0.1'],
+    middlewareMode: false,
   },
   plugins: [
     base44({
