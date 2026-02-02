@@ -29,6 +29,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const checkAppState = () => {
+    console.log('AuthContext: checkAppState started');
     setIsLoadingAuth(true);
     setAuthError(null);
 
@@ -60,6 +61,7 @@ export const AuthProvider = ({ children }) => {
       }
     }
 
+    console.log('AuthContext: checkAppState finished, isLoadingAuth set to false');
     setIsLoadingAuth(false);
   };
 

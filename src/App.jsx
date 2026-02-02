@@ -20,6 +20,7 @@ const LayoutWrapper = ({ children, currentPageName }) => Layout ?
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isAuthenticated } = useAuth();
+  console.log('AuthenticatedApp: render', { isLoadingAuth, isAuthenticated });
 
   // Show loading spinner while checking auth
   if (isLoadingAuth) {
