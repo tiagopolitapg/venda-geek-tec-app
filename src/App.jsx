@@ -2,8 +2,8 @@ import './App.css'
 import { Toaster } from "@/components/ui/toaster"
 import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClientInstance } from '@/lib/query-client'
-import VisualEditAgent from '@/lib/VisualEditAgent'
-import NavigationTracker from '@/lib/NavigationTracker'
+// import VisualEditAgent from '@/lib/VisualEditAgent'
+// import NavigationTracker from '@/lib/NavigationTracker'
 import { pagesConfig } from './pages.config'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import PageNotFound from './lib/PageNotFound';
@@ -33,12 +33,7 @@ const AuthenticatedApp = () => {
 
   // If not authenticated, show login page
   if (!isAuthenticated) {
-    return (
-      <Routes>
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="*" element={<LoginPage />} />
-      </Routes>
-    );
+    return <LoginPage />;
   }
 
   // Render the main app
@@ -72,10 +67,10 @@ function App() {
     <Router>
       <AuthProvider>
         <QueryClientProvider client={queryClientInstance}>
-          <NavigationTracker />
+          {/* <NavigationTracker /> */}
           <AuthenticatedApp />
           <Toaster />
-          <VisualEditAgent />
+          {/* <VisualEditAgent /> */}
         </QueryClientProvider>
       </AuthProvider>
     </Router>
